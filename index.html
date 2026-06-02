@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вікторина для двох команд</title>
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --primary: #5273ef;
+      --primary-soft: #dbeafe;
+      --success: #22c55e;
+      --success-soft: #dcfce7;
+      --danger: #ef4444;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 32px));
+      margin: 28px auto 48px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+      gap: 12px;
+      min-width: 340px;
+    }
+
+    .score-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .score-name {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .score-value {
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+
+    .timer-panel {
+      min-width: 300px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .timer-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .timer-display {
+      font-size: 42px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .timer-panel.warning .timer-display {
+      color: var(--danger);
+    }
+
+    .timer-panel.done {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 5px rgba(239, 68, 68, .12), var(--shadow);
+    }
+
+    .timer-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .timer-row input {
+      padding: 10px 12px;
+    }
+
+    .timer-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(34, 197, 94, .18);
+    }
+
+    .setup {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-soft);
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform .15s, box-shadow .15s, background .15s, border-color .15s;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, .18);
+    }
+
+    .btn-light {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-danger {
+      background: #fff1f2;
+      color: #ee6660;
+      border: 1px solid #fecdd3;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 4px 2px 16px;
+      margin-bottom: 8px;
+    }
+
+    .tab {
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 10px 18px rgba(37, 99, 235, .16);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .question-card {
+      background: var(--card);
+      border: 2px solid transparent;
+      border-radius: var(--radius);
+      padding: 18px;
+      min-height: 245px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+    }
+
+    .question-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .question-card.answered {
+      border-color: var(--success);
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, .16), var(--shadow);
+    }
+
+    .question-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .points {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .status {
+      color: var(--success);
+      background: var(--success-soft);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      display: none;
+    }
+
+    .answered .status {
+      display: inline-flex;
+    }
+
+    .qa-title {
+      margin: 0 0 5px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .question,
+    .answer {
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .answer-box {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .42);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 10;
+    }
+
+    .overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(430px, 100%);
+      background: #fff;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 25px 70px rgba(15, 23, 42, .24);
+      animation: pop .18s ease-out;
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(.96) translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .modal p {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .team-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .team-choice {
+      min-height: 58px;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        flex-direction: column;
+      }
+
+      .scoreboard,
+      .timer-panel {
+        width: 100%;
+        min-width: 0;
+      }
+
+
+      .timer-panel {
+        min-width: 300px;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .timer-label {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .timer-display {
+        font-size: 42px;
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        margin-bottom: 12px;
+      }
+
+      .timer-panel.warning .timer-display {
+        color: var(--danger);
+      }
+
+      .timer-panel.done {
+        border-color: var(--danger);
+        box-shadow: 0 0 0 5px rgba(239, 68, 68, .12), var(--shadow);
+      }
+
+      .timer-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .timer-row input {
+        padding: 10px 12px;
+      }
+
+      .timer-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+      }
+
+      .btn-success {
+        background: var(--success);
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(34, 197, 94, .18);
+      }
+
+      .setup {
+        grid-template-columns: 1fr;
+      }
+
+      .board {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .app {
+        width: min(100% - 20px, 1180px);
+        margin-top: 18px;
+      }
+
+      .board {
+        grid-template-columns: 1fr;
+      }
+
+      .scoreboard {
+        grid-template-columns: 1fr;
+      }
+
+      .team-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <section class="topbar">
+      <div>
+        <h1>Quiz</h1>
+      </div>
+
+      <div class="scoreboard">
+        <div class="score-card">
+          <div class="score-name" id="scoreName1">Команда 1</div>
+          <div class="score-value" id="score1">0</div>
+        </div>
+        <div class="score-card">
+          <div class="score-name" id="scoreName2">Команда 2</div>
+          <div class="score-value" id="score2">0</div>
+        </div>
+      </div>
+
+      <div class="timer-panel" id="timerPanel">
+        <div class="timer-label">Таймер</div>
+        <div class="timer-display" id="timerDisplay">00:15</div>
+        <div class="timer-row">
+          <input id="timerSeconds" type="number" min="5" step="5" value="15" aria-label="Час таймера в секундах" />
+          <button class="btn-light" id="applyTimer">Встановити</button>
+        </div>
+        <div class="timer-actions">
+          <button class="btn-success" id="startTimer">Старт</button>
+          <button class="btn-light" id="pauseTimer">Пауза</button>
+          <button class="btn-danger" id="resetTimer">Скинути</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="setup">
+      <div>
+        <label for="team1">Назва першої команди</label>
+        <input id="team1" value="Команда А" placeholder="Наприклад: Блискавки" />
+      </div>
+      <div>
+        <label for="team2">Назва другої команди</label>
+        <input id="team2" value="Команда Б" placeholder="Наприклад: Титани" />
+      </div>
+      <button class="btn-primary" id="saveTeams">Зберегти</button>
+    </section>
+
+    <nav class="tabs" id="tabs"></nav>
+    <section class="board" id="board"></section>
+  </main>
+
+  <div class="overlay" id="modalOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">Кому зарахувати бали?</h2>
+      <p id="modalText">Оберіть команду, яка відповіла на питання.</p>
+      <div class="team-buttons">
+        <button class="team-choice" id="chooseTeam1">Команда 1</button>
+        <button class="team-choice" id="chooseTeam2">Команда 2</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-light" id="closeModal">Скасувати</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const topics = [
+      {
+            "title": "Алкоголь",
+            "questions": [
+                  {
+                        "points": 100,
+                        "question": "Яка країна є найбільшим виробником вина у світі?",
+                        "answer": "Італія"
+                  },
+                  {
+                        "points": 200,
+                        "question": "Який процес відповідає за утворення бульбашок у шампанському?",
+                        "answer": "Вторинне бродіння"
+                  },
+                  {
+                        "points": 300,
+                        "question": "Як називається міцний алкогольний напій, який походить із виноградного вина та витримується в бочках?",
+                        "answer": "Бренді"
+                  },
+                  {
+                        "points": 400,
+                        "question": "Як називається процес подвійної перегонки спирту?",
+                        "answer": "Дистиляція"
+                  },
+                  {
+                        "points": 500,
+                        "question": "Який виноградний сорт є основою для класичного вина Бордо?",
+                        "answer": "Каберне Совіньйон"
+                  },
+                  {
+                        "points": 600,
+                        "question": "Як називається міжнародна система контролю якості вина за регіоном походження?",
+                        "answer": "Апелясьйон (Appellation)"
+                  }
+            ]
+      },
+      {
+            "title": "Географія",
+            "questions": [
+                  {
+                        "points": 100,
+                        "question": "Яка протока розділяє Європу та Азію в районі Туреччини?",
+                        "answer": "Босфор"
+                  },
+                  {
+                        "points": 200,
+                        "question": "Яка країна має найбільшу кількість часових поясів?",
+                        "answer": "Франція"
+                  },
+                  {
+                        "points": 300,
+                        "question": "Як називається точка на Землі з координатами 0° широти та 0° довготи?",
+                        "answer": "Нульова точка (перетин екватора і нульового меридіана)"
+                  },
+                  {
+                        "points": 400,
+                        "question": "Як називається столиця Австралії?",
+                        "answer": "Канберра"
+                  },
+                  {
+                        "points": 500,
+                        "question": "Який вулкан вважається найвищим активним вулканом Європи?",
+                        "answer": "Етна"
+                  },
+                  {
+                        "points": 600,
+                        "question": "Яка країна повністю оточена територією Південно-Африканської Республіки?",
+                        "answer": "Лесото"
+                  }
+            ]
+      },
+      {
+            "title": "Загадки",
+            "questions": [
+                  {
+                        "points": 100,
+                        "question": "Йде з міста в місто, але завжди залишається на місці. Що це?",
+                        "answer": "Дорога"
+                  },
+                  {
+                        "points": 200,
+                        "question": "У мене є моря без води, гори без каміння і міста без людей. Що це?",
+                        "answer": "Мапа"
+                  },
+                  {
+                        "points": 300,
+                        "question": "Людина стоїть під дощем без парасолі та головного убору. У неї не намокло жодне волосся. Чому?",
+                        "answer": "Вона лиса"
+                  },
+                  {
+                        "points": 400,
+                        "question": "Чим ти далі, тим більше залишаєш позаду. Що це?",
+                        "answer": "Сліди"
+                  },
+                  {
+                        "points": 500,
+                        "question": "Мене можна почути, але неможливо побачити чи торкнутися. Що це?",
+                        "answer": "Ехо"
+                  },
+                  {
+                        "points": 600,
+                        "question": "Я народжуюся великою, а помираю маленькою. Що це?",
+                        "answer": "Свічка"
+                  }
+            ]
+      },
+      {
+            "title": "Наука",
+            "questions": [
+                  {
+                        "points": 100,
+                        "question": "Який фізик сформулював спеціальну теорію відносності у 1905 році?",
+                        "answer": "Альберт Ейнштейн"
+                  },
+                  {
+                        "points": 200,
+                        "question": "Як називається межа навколо чорної діри, за якою неможливе повернення?",
+                        "answer": "Горизонт подій"
+                  },
+                  {
+                        "points": 300,
+                        "question": "Яка фундаментальна частинка відповідає за перенесення електромагнітної взаємодії?",
+                        "answer": "Фотон"
+                  },
+                  {
+                        "points": 400,
+                        "question": "Який елемент має атомний номер 92?",
+                        "answer": "Уран"
+                  },
+                  {
+                        "points": 500,
+                        "question": "Як називається процес утворення важчих елементів усередині зірок?",
+                        "answer": "Нуклеосинтез"
+                  },
+                  {
+                        "points": 600,
+                        "question": "Який математик вважається автором теореми про неповноту формальних систем?",
+                        "answer": "Курт Гедель"
+                  }
+            ]
+      },
+      {
+            "title": "Фізика",
+            "questions": [
+                  {
+                        "points": 100,
+                        "question": "Яка одиниця вимірювання електричного опору?",
+                        "answer": "Ом"
+                  },
+                  {
+                        "points": 200,
+                        "question": "Як називається швидкість поширення світла у вакуумі?",
+                        "answer": "Приблизно 300 000 км/с"
+                  },
+                  {
+                        "points": 300,
+                        "question": "Яка фундаментальна частинка має від'ємний електричний заряд?",
+                        "answer": "Електрон"
+                  },
+                  {
+                        "points": 400,
+                        "question": "Як називається температура, за якої припиняється тепловий рух молекул?",
+                        "answer": "Абсолютний нуль"
+                  },
+                  {
+                        "points": 500,
+                        "question": "Як називається явище зміни частоти хвилі через рух джерела або спостерігача?",
+                        "answer": "Ефект Доплера"
+                  },
+                  {
+                        "points": 600,
+                        "question": "Який фізик сформулював принцип невизначеності в квантовій механіці?",
+                        "answer": "Вернер Гейзенберг"
+                  }
+            ]
+      },
+      {
+            "title": "Відеоігри",
+            "questions": [
+                  {
+                        "points": 100,
+                        "question": "Як звати головного героя серії ігор The Witcher?",
+                        "answer": "Geralt of Rivia"
+                  },
+                  {
+                        "points": 200,
+                        "question": "Яка компанія створила серію ігор Grand Theft Auto?",
+                        "answer": "Rockstar Games"
+                  },
+                  {
+                        "points": 300,
+                        "question": "Яка компанія розробила гру Half-Life?",
+                        "answer": "Valve"
+                  },
+                  {
+                        "points": 400,
+                        "question": "У якому році вийшла перша гра Minecraft?",
+                        "answer": "2009"
+                  },
+                  {
+                        "points": 500,
+                        "question": "Яка гра стала першою в історії, що отримала понад 1 мільярд доларів доходу менш ніж за місяць після релізу?",
+                        "answer": "Grand Theft Auto V"
+                  },
+                  {
+                        "points": 600,
+                        "question": "Як називається материк, на якому відбуваються події більшості ігор серії The Elder Scrolls?",
+                        "answer": "Тамріель"
+                  }
+            ]
+      }
+];
+
+    const state = {
+      activeTopic: 0,
+      teamNames: ["Команда А", "Команда Б"],
+      scores: [0, 0],
+      answered: {},
+      pendingQuestion: null,
+      timerDefaultSeconds: 15,
+      timerSecondsLeft: 15,
+      timerRunning: false,
+      timerInterval: null
+    };
+
+    const tabsEl = document.getElementById("tabs");
+    const boardEl = document.getElementById("board");
+    const overlayEl = document.getElementById("modalOverlay");
+    const modalTextEl = document.getElementById("modalText");
+
+    const team1Input = document.getElementById("team1");
+    const team2Input = document.getElementById("team2");
+    const saveTeamsBtn = document.getElementById("saveTeams");
+
+    const scoreName1 = document.getElementById("scoreName1");
+    const scoreName2 = document.getElementById("scoreName2");
+    const score1 = document.getElementById("score1");
+    const score2 = document.getElementById("score2");
+
+    const chooseTeam1 = document.getElementById("chooseTeam1");
+    const chooseTeam2 = document.getElementById("chooseTeam2");
+    const closeModal = document.getElementById("closeModal");
+
+    const timerPanel = document.getElementById("timerPanel");
+    const timerDisplay = document.getElementById("timerDisplay");
+    const timerSecondsInput = document.getElementById("timerSeconds");
+    const applyTimerBtn = document.getElementById("applyTimer");
+    const startTimerBtn = document.getElementById("startTimer");
+    const pauseTimerBtn = document.getElementById("pauseTimer");
+    const resetTimerBtn = document.getElementById("resetTimer");
+
+    function playTone(frequency = 1000, duration = 0.12, volume = 0.22, delay = 0) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+
+      const audioCtx = new AudioContext();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.type = "sine";
+      oscillator.frequency.value = frequency;
+
+      const startAt = audioCtx.currentTime + delay;
+      gainNode.gain.setValueAtTime(volume, startAt);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
+
+      oscillator.start(startAt);
+      oscillator.stop(startAt + duration);
+
+      setTimeout(() => audioCtx.close(), (delay + duration + 0.1) * 1000);
+    }
+
+    function playCountdownBeep() {
+      playTone(950, 0.1, 0.18);
+    }
+
+    function playFinalSound() {
+      playTone(650, 0.16, 0.24, 0);
+      playTone(950, 0.18, 0.24, 0.2);
+      playTone(1200, 0.24, 0.26, 0.42);
+    }
+
+    function formatTime(totalSeconds) {
+      const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+      const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+      return `${minutes}:${seconds}`;
+    }
+
+    function renderTimer() {
+      timerDisplay.textContent = formatTime(state.timerSecondsLeft);
+      timerPanel.classList.toggle("warning", state.timerSecondsLeft <= 10 && state.timerSecondsLeft > 0);
+      timerPanel.classList.toggle("done", state.timerSecondsLeft === 0);
+      startTimerBtn.textContent = state.timerRunning ? "Йде..." : "Старт";
+      startTimerBtn.disabled = state.timerRunning || state.timerSecondsLeft === 0;
+      pauseTimerBtn.disabled = !state.timerRunning;
+    }
+
+    function setTimerFromInput() {
+      const seconds = Math.max(5, Number(timerSecondsInput.value) || 30);
+      state.timerDefaultSeconds = seconds;
+      state.timerSecondsLeft = seconds;
+      stopTimer();
+      renderTimer();
+    }
+
+    function startTimer() {
+      if (state.timerRunning || state.timerSecondsLeft <= 0) return;
+      state.timerRunning = true;
+      renderTimer();
+
+      state.timerInterval = setInterval(() => {
+        state.timerSecondsLeft -= 1;
+
+        if (state.timerSecondsLeft > 0 && state.timerSecondsLeft <= 3) {
+          playCountdownBeep();
+        }
+
+        if (state.timerSecondsLeft <= 0) {
+          state.timerSecondsLeft = 0;
+          stopTimer();
+          playFinalSound();
+        }
+
+        renderTimer();
+      }, 1000);
+    }
+
+    function stopTimer() {
+      state.timerRunning = false;
+      if (state.timerInterval) {
+        clearInterval(state.timerInterval);
+        state.timerInterval = null;
+      }
+      renderTimer();
+    }
+
+    function resetTimer() {
+      stopTimer();
+      state.timerSecondsLeft = state.timerDefaultSeconds;
+      renderTimer();
+    }
+
+    function questionKey(topicIndex, questionIndex) {
+      return `${topicIndex}-${questionIndex}`;
+    }
+
+    function renderTabs() {
+      tabsEl.innerHTML = "";
+      topics.forEach((topic, index) => {
+        const button = document.createElement("button");
+        button.className = `tab ${index === state.activeTopic ? "active" : ""}`;
+        button.textContent = topic.title;
+        button.addEventListener("click", () => {
+          state.activeTopic = index;
+          render();
+        });
+        tabsEl.appendChild(button);
+      });
+    }
+
+    function renderBoard() {
+      boardEl.innerHTML = "";
+      topics[state.activeTopic].questions.forEach((item, index) => {
+        const key = questionKey(state.activeTopic, index);
+        const answeredData = state.answered[key];
+        const card = document.createElement("article");
+        card.className = `question-card ${answeredData ? "answered" : ""}`;
+
+        card.innerHTML = `
+          <div class="question-head">
+            <span class="points">${item.points} балів</span>
+            <span class="status">Відповіли</span>
+          </div>
+          <div>
+            <p class="qa-title">Питання</p>
+            <p class="question">${item.question}</p>
+          </div>
+          <div class="answer-box">
+            <p class="qa-title">Відповідь</p>
+            <p class="answer">${item.answer}</p>
+          </div>
+          ${answeredData ? `<p class="subtitle">Бали зараховано: <strong>${state.teamNames[answeredData.teamIndex]}</strong></p>` : ""}
+          <div class="card-actions">
+            <button class="btn-primary mark-btn" ${answeredData ? "disabled" : ""}>Позначити як відповідене</button>
+            <button class="btn-danger undo-btn" ${answeredData ? "" : "disabled"}>Скасувати</button>
+          </div>
+        `;
+
+        card.querySelector(".mark-btn").addEventListener("click", () => openModal(state.activeTopic, index));
+        card.querySelector(".undo-btn").addEventListener("click", () => undoAnswer(state.activeTopic, index));
+        boardEl.appendChild(card);
+      });
+    }
+
+    function renderScores() {
+      scoreName1.textContent = state.teamNames[0];
+      scoreName2.textContent = state.teamNames[1];
+      chooseTeam1.textContent = state.teamNames[0];
+      chooseTeam2.textContent = state.teamNames[1];
+      score1.textContent = state.scores[0];
+      score2.textContent = state.scores[1];
+    }
+
+    function render() {
+      renderTabs();
+      renderScores();
+      renderBoard();
+      renderTimer();
+    }
+
+    function saveTeamNames() {
+      state.teamNames = [
+        team1Input.value.trim() || "Команда 1",
+        team2Input.value.trim() || "Команда 2"
+      ];
+      renderScores();
+      renderBoard();
+    }
+
+    function openModal(topicIndex, questionIndex) {
+      state.pendingQuestion = { topicIndex, questionIndex };
+      const item = topics[topicIndex].questions[questionIndex];
+      modalTextEl.textContent = `Питання на ${item.points} балів. Оберіть команду, якій зарахувати відповідь.`;
+      overlayEl.classList.add("show");
+      overlayEl.setAttribute("aria-hidden", "false");
+    }
+
+    function closeTeamModal() {
+      state.pendingQuestion = null;
+      overlayEl.classList.remove("show");
+      overlayEl.setAttribute("aria-hidden", "true");
+    }
+
+    function confirmAnswer(teamIndex) {
+      if (!state.pendingQuestion) return;
+      const { topicIndex, questionIndex } = state.pendingQuestion;
+      const key = questionKey(topicIndex, questionIndex);
+      if (state.answered[key]) return;
+
+      const points = topics[topicIndex].questions[questionIndex].points;
+      state.answered[key] = { teamIndex, points };
+      state.scores[teamIndex] += points;
+      closeTeamModal();
+      render();
+    }
+
+    function undoAnswer(topicIndex, questionIndex) {
+      const key = questionKey(topicIndex, questionIndex);
+      const answeredData = state.answered[key];
+      if (!answeredData) return;
+
+      state.scores[answeredData.teamIndex] -= answeredData.points;
+      delete state.answered[key];
+      render();
+    }
+
+    saveTeamsBtn.addEventListener("click", saveTeamNames);
+    team1Input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") saveTeamNames();
+    });
+    team2Input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") saveTeamNames();
+    });
+
+    chooseTeam1.addEventListener("click", () => confirmAnswer(0));
+    chooseTeam2.addEventListener("click", () => confirmAnswer(1));
+    closeModal.addEventListener("click", closeTeamModal);
+    overlayEl.addEventListener("click", (event) => {
+      if (event.target === overlayEl) closeTeamModal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeTeamModal();
+    });
+
+
+    applyTimerBtn.addEventListener("click", setTimerFromInput);
+    timerSecondsInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") setTimerFromInput();
+    });
+    startTimerBtn.addEventListener("click", startTimer);
+    pauseTimerBtn.addEventListener("click", stopTimer);
+    resetTimerBtn.addEventListener("click", resetTimer);
+
+    render();
+  </script>
+</body>
+
+</html>
