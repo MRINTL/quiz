@@ -493,6 +493,9 @@
     <section class="topbar">
       <div>
         <h1>Quiz</h1>
+        <button class="btn-danger" id="clearProgressBtn">
+          Очистити прогрес
+        </button>
       </div>
 
       <div class="scoreboard">
@@ -554,216 +557,216 @@
   <script>
     const topics = [
       {
-            "title": "Алкоголь",
-            "questions": [
-                  {
-                        "points": 100,
-                        "question": "Яка країна є найбільшим виробником вина у світі?",
-                        "answer": "Італія"
-                  },
-                  {
-                        "points": 200,
-                        "question": "Який процес відповідає за утворення бульбашок у шампанському?",
-                        "answer": "Вторинне бродіння"
-                  },
-                  {
-                        "points": 300,
-                        "question": "Як називається міцний алкогольний напій, який походить із виноградного вина та витримується в бочках?",
-                        "answer": "Бренді"
-                  },
-                  {
-                        "points": 400,
-                        "question": "Як називається процес подвійної перегонки спирту?",
-                        "answer": "Дистиляція"
-                  },
-                  {
-                        "points": 500,
-                        "question": "Який виноградний сорт є основою для класичного вина Бордо?",
-                        "answer": "Каберне Совіньйон"
-                  },
-                  {
-                        "points": 600,
-                        "question": "Як називається міжнародна система контролю якості вина за регіоном походження?",
-                        "answer": "Апелясьйон (Appellation)"
-                  }
-            ]
+        "title": "Алкоголь",
+        "questions": [
+          {
+            "points": 100,
+            "question": "Яка країна є найбільшим виробником вина у світі?",
+            "answer": "Італія"
+          },
+          {
+            "points": 200,
+            "question": "Який процес відповідає за утворення бульбашок у шампанському?",
+            "answer": "Вторинне бродіння"
+          },
+          {
+            "points": 300,
+            "question": "Як називається міцний алкогольний напій, який походить із виноградного вина та витримується в бочках?",
+            "answer": "Бренді"
+          },
+          {
+            "points": 400,
+            "question": "Як називається процес подвійної перегонки спирту?",
+            "answer": "Дистиляція"
+          },
+          {
+            "points": 500,
+            "question": "Який виноградний сорт є основою для класичного вина Бордо?",
+            "answer": "Каберне Совіньйон"
+          },
+          {
+            "points": 600,
+            "question": "Як називається міжнародна система контролю якості вина за регіоном походження?",
+            "answer": "Апелясьйон (Appellation)"
+          }
+        ]
       },
       {
-            "title": "Географія",
-            "questions": [
-                  {
-                        "points": 100,
-                        "question": "Яка протока розділяє Європу та Азію в районі Туреччини?",
-                        "answer": "Босфор"
-                  },
-                  {
-                        "points": 200,
-                        "question": "Яка країна має найбільшу кількість часових поясів?",
-                        "answer": "Франція"
-                  },
-                  {
-                        "points": 300,
-                        "question": "Як називається точка на Землі з координатами 0° широти та 0° довготи?",
-                        "answer": "Нульова точка (перетин екватора і нульового меридіана)"
-                  },
-                  {
-                        "points": 400,
-                        "question": "Як називається столиця Австралії?",
-                        "answer": "Канберра"
-                  },
-                  {
-                        "points": 500,
-                        "question": "Який вулкан вважається найвищим активним вулканом Європи?",
-                        "answer": "Етна"
-                  },
-                  {
-                        "points": 600,
-                        "question": "Яка країна повністю оточена територією Південно-Африканської Республіки?",
-                        "answer": "Лесото"
-                  }
-            ]
+        "title": "Географія",
+        "questions": [
+          {
+            "points": 100,
+            "question": "Яка протока розділяє Європу та Азію в районі Туреччини?",
+            "answer": "Босфор"
+          },
+          {
+            "points": 200,
+            "question": "Яка країна має найбільшу кількість часових поясів?",
+            "answer": "Франція"
+          },
+          {
+            "points": 300,
+            "question": "Як називається точка на Землі з координатами 0° широти та 0° довготи?",
+            "answer": "Нульова точка (перетин екватора і нульового меридіана)"
+          },
+          {
+            "points": 400,
+            "question": "Як називається столиця Австралії?",
+            "answer": "Канберра"
+          },
+          {
+            "points": 500,
+            "question": "Який вулкан вважається найвищим активним вулканом Європи?",
+            "answer": "Етна"
+          },
+          {
+            "points": 600,
+            "question": "Яка країна повністю оточена територією Південно-Африканської Республіки?",
+            "answer": "Лесото"
+          }
+        ]
       },
       {
-            "title": "Загадки",
-            "questions": [
-                  {
-                        "points": 100,
-                        "question": "Йде з міста в місто, але завжди залишається на місці. Що це?",
-                        "answer": "Дорога"
-                  },
-                  {
-                        "points": 200,
-                        "question": "У мене є моря без води, гори без каміння і міста без людей. Що це?",
-                        "answer": "Мапа"
-                  },
-                  {
-                        "points": 300,
-                        "question": "Людина стоїть під дощем без парасолі та головного убору. У неї не намокло жодне волосся. Чому?",
-                        "answer": "Вона лиса"
-                  },
-                  {
-                        "points": 400,
-                        "question": "Чим ти далі, тим більше залишаєш позаду. Що це?",
-                        "answer": "Сліди"
-                  },
-                  {
-                        "points": 500,
-                        "question": "Мене можна почути, але неможливо побачити чи торкнутися. Що це?",
-                        "answer": "Ехо"
-                  },
-                  {
-                        "points": 600,
-                        "question": "Я народжуюся великою, а помираю маленькою. Що це?",
-                        "answer": "Свічка"
-                  }
-            ]
+        "title": "Логіка",
+        "questions": [
+          {
+            "points": 100,
+            "question": "У кошику 5 яблук. П'ятьом людям дали по одному яблуку, але одне яблуко залишилося в кошику. Як це можливо?",
+            "answer": "Остання людина отримала яблуко разом із кошиком"
+          },
+          {
+            "points": 200,
+            "question": "Два батьки та два сини пішли на риболовлю. Вони спіймали трьох рибин, і кожному дісталося по одній. Як так сталося?",
+            "answer": "Це були дідусь, батько і син"
+          },
+          {
+            "points": 300,
+            "question": "Що можна зламати, навіть не торкаючись?",
+            "answer": "Обіцянку"
+          },
+          {
+            "points": 400,
+            "question": "У мене є міста, але немає будинків; є ліси, але немає дерев; є річки, але немає води. Що це?",
+            "answer": "Мапа"
+          },
+          {
+            "points": 500,
+            "question": "Ти завжди йдеш за мною, але ніколи не можеш мене наздогнати. Хто я?",
+            "answer": "Майбутнє"
+          },
+          {
+            "points": 600,
+            "question": "Чоловік дивиться на портрет і каже: \"У мене немає братів і сестер, але батько цієї людини — син мого батька\". Хто зображений на портреті?",
+            "answer": "Його син"
+          }
+        ]
       },
       {
-            "title": "Наука",
-            "questions": [
-                  {
-                        "points": 100,
-                        "question": "Який фізик сформулював спеціальну теорію відносності у 1905 році?",
-                        "answer": "Альберт Ейнштейн"
-                  },
-                  {
-                        "points": 200,
-                        "question": "Як називається межа навколо чорної діри, за якою неможливе повернення?",
-                        "answer": "Горизонт подій"
-                  },
-                  {
-                        "points": 300,
-                        "question": "Яка фундаментальна частинка відповідає за перенесення електромагнітної взаємодії?",
-                        "answer": "Фотон"
-                  },
-                  {
-                        "points": 400,
-                        "question": "Який елемент має атомний номер 92?",
-                        "answer": "Уран"
-                  },
-                  {
-                        "points": 500,
-                        "question": "Як називається процес утворення важчих елементів усередині зірок?",
-                        "answer": "Нуклеосинтез"
-                  },
-                  {
-                        "points": 600,
-                        "question": "Який математик вважається автором теореми про неповноту формальних систем?",
-                        "answer": "Курт Гедель"
-                  }
-            ]
+        "title": "Наука",
+        "questions": [
+          {
+            "points": 100,
+            "question": "Який фізик сформулював спеціальну теорію відносності у 1905 році?",
+            "answer": "Альберт Ейнштейн"
+          },
+          {
+            "points": 200,
+            "question": "Як називається межа навколо чорної діри, за якою неможливе повернення?",
+            "answer": "Горизонт подій"
+          },
+          {
+            "points": 300,
+            "question": "Яка фундаментальна частинка відповідає за перенесення електромагнітної взаємодії?",
+            "answer": "Фотон"
+          },
+          {
+            "points": 400,
+            "question": "Який елемент має атомний номер 92?",
+            "answer": "Уран"
+          },
+          {
+            "points": 500,
+            "question": "Як називається процес утворення важчих елементів усередині зірок?",
+            "answer": "Нуклеосинтез"
+          },
+          {
+            "points": 600,
+            "question": "Який математик вважається автором теореми про неповноту формальних систем?",
+            "answer": "Курт Гедель"
+          }
+        ]
       },
       {
-            "title": "Фізика",
-            "questions": [
-                  {
-                        "points": 100,
-                        "question": "Яка одиниця вимірювання електричного опору?",
-                        "answer": "Ом"
-                  },
-                  {
-                        "points": 200,
-                        "question": "Як називається швидкість поширення світла у вакуумі?",
-                        "answer": "Приблизно 300 000 км/с"
-                  },
-                  {
-                        "points": 300,
-                        "question": "Яка фундаментальна частинка має від'ємний електричний заряд?",
-                        "answer": "Електрон"
-                  },
-                  {
-                        "points": 400,
-                        "question": "Як називається температура, за якої припиняється тепловий рух молекул?",
-                        "answer": "Абсолютний нуль"
-                  },
-                  {
-                        "points": 500,
-                        "question": "Як називається явище зміни частоти хвилі через рух джерела або спостерігача?",
-                        "answer": "Ефект Доплера"
-                  },
-                  {
-                        "points": 600,
-                        "question": "Який фізик сформулював принцип невизначеності в квантовій механіці?",
-                        "answer": "Вернер Гейзенберг"
-                  }
-            ]
+        "title": "Фізика",
+        "questions": [
+          {
+            "points": 100,
+            "question": "Яка одиниця вимірювання електричного опору?",
+            "answer": "Ом"
+          },
+          {
+            "points": 200,
+            "question": "Яка швидкість поширення світла у вакуумі?",
+            "answer": "Приблизно 300 000 км/с"
+          },
+          {
+            "points": 300,
+            "question": "Яка фундаментальна частинка має від'ємний електричний заряд?",
+            "answer": "Електрон"
+          },
+          {
+            "points": 400,
+            "question": "Як називається температура, за якої припиняється тепловий рух молекул?",
+            "answer": "Абсолютний нуль"
+          },
+          {
+            "points": 500,
+            "question": "Як називається явище зміни частоти хвилі через рух джерела або спостерігача?",
+            "answer": "Ефект Доплера"
+          },
+          {
+            "points": 600,
+            "question": "Який фізик сформулював принцип невизначеності в квантовій механіці?",
+            "answer": "Вернер Гейзенберг"
+          }
+        ]
       },
       {
-            "title": "Відеоігри",
-            "questions": [
-                  {
-                        "points": 100,
-                        "question": "Як звати головного героя серії ігор The Witcher?",
-                        "answer": "Geralt of Rivia"
-                  },
-                  {
-                        "points": 200,
-                        "question": "Яка компанія створила серію ігор Grand Theft Auto?",
-                        "answer": "Rockstar Games"
-                  },
-                  {
-                        "points": 300,
-                        "question": "Яка компанія розробила гру Half-Life?",
-                        "answer": "Valve"
-                  },
-                  {
-                        "points": 400,
-                        "question": "У якому році вийшла перша гра Minecraft?",
-                        "answer": "2009"
-                  },
-                  {
-                        "points": 500,
-                        "question": "Яка гра стала першою в історії, що отримала понад 1 мільярд доларів доходу менш ніж за місяць після релізу?",
-                        "answer": "Grand Theft Auto V"
-                  },
-                  {
-                        "points": 600,
-                        "question": "Як називається материк, на якому відбуваються події більшості ігор серії The Elder Scrolls?",
-                        "answer": "Тамріель"
-                  }
-            ]
+        "title": "Спорт",
+        "questions": [
+          {
+            "points": 100,
+            "question": "Який футбольний клуб має прізвисько 'вершкові'?",
+            "answer": "Real Madrid CF"
+          },
+          {
+            "points": 200,
+            "question": "Як називається стиль плавання, у якому обидві руки рухаються одночасно?",
+            "answer": "Батерфляй / Брас"
+          },
+          {
+            "points": 300,
+            "question": "Як називається максимальна кількість очок за один кидок у боулінгу?",
+            "answer": "300"
+          },
+          {
+            "points": 400,
+            "question": "Хто став найтитулованішим олімпійцем за кількістю золотих медалей?",
+            "answer": "Michael Phelps"
+          },
+          {
+            "points": 500,
+            "question": "У якому році відбулися перші сучасні Олімпійські ігри?",
+            "answer": "1896"
+          },
+          {
+            "points": 600,
+            "question": "У якому виді спорту використовується термін 'тріпл-дабл'?",
+            "answer": "Баскетбол"
+          }
+        ]
       }
-];
+    ];
 
     const state = {
       activeTopic: 0,
@@ -776,6 +779,40 @@
       timerRunning: false,
       timerInterval: null
     };
+
+    const STORAGE_KEY = "quiz_state_v1";
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        teamNames: state.teamNames,
+        scores: state.scores,
+        answered: state.answered,
+        activeTopic: state.activeTopic
+      }));
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+
+      try {
+        const data = JSON.parse(saved);
+
+        state.teamNames = data.teamNames || state.teamNames;
+        state.scores = data.scores || state.scores;
+        state.answered = data.answered || {};
+        state.activeTopic = data.activeTopic ?? 0;
+
+        team1Input.value = state.teamNames[0];
+        team2Input.value = state.teamNames[1];
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function clearProgress() {
+      localStorage.removeItem(STORAGE_KEY);
+    }
 
     const tabsEl = document.getElementById("tabs");
     const boardEl = document.getElementById("board");
@@ -909,6 +946,7 @@
         button.textContent = topic.title;
         button.addEventListener("click", () => {
           state.activeTopic = index;
+          saveState();
           render();
         });
         tabsEl.appendChild(button);
@@ -970,6 +1008,9 @@
         team1Input.value.trim() || "Команда 1",
         team2Input.value.trim() || "Команда 2"
       ];
+
+      saveState();
+
       renderScores();
       renderBoard();
     }
@@ -990,13 +1031,23 @@
 
     function confirmAnswer(teamIndex) {
       if (!state.pendingQuestion) return;
+
       const { topicIndex, questionIndex } = state.pendingQuestion;
       const key = questionKey(topicIndex, questionIndex);
+
       if (state.answered[key]) return;
 
       const points = topics[topicIndex].questions[questionIndex].points;
-      state.answered[key] = { teamIndex, points };
+
+      state.answered[key] = {
+        teamIndex,
+        points
+      };
+
       state.scores[teamIndex] += points;
+
+      saveState();
+
       closeTeamModal();
       render();
     }
@@ -1004,10 +1055,15 @@
     function undoAnswer(topicIndex, questionIndex) {
       const key = questionKey(topicIndex, questionIndex);
       const answeredData = state.answered[key];
+
       if (!answeredData) return;
 
       state.scores[answeredData.teamIndex] -= answeredData.points;
+
       delete state.answered[key];
+
+      saveState();
+
       render();
     }
 
@@ -1038,6 +1094,15 @@
     pauseTimerBtn.addEventListener("click", stopTimer);
     resetTimerBtn.addEventListener("click", resetTimer);
 
+    document.getElementById("clearProgressBtn")
+      ?.addEventListener("click", () => {
+        if (!confirm("Очистити весь прогрес?")) return;
+
+        clearProgress();
+        location.reload();
+      });
+
+    loadState();
     render();
   </script>
 </body>
